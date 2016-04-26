@@ -13,6 +13,8 @@ public class GlobalVariables : MonoBehaviour {
     public static int[] fluteRange = new int[5];
     public static int[] tubaRange = new int[4];
     public static bool freezeSoundWaves = false;
+    public static string song_name = "Assets/Sis puella magica!.mid";
+    public static int difficulty = 3;
 
 	// Use this for initialization
 	void Start () {

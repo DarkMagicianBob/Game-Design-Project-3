@@ -7,7 +7,7 @@ using NAudio.Midi;
 
 public class playTrack : MonoBehaviour {
     //Different levels of difficult depending on how we want to do things
-    public int difficulty = 2;
+    public int difficulty = GlobalVariables.difficulty;
     int noteTimeDivisor;
     public double tempoToUse;
     public GameObject noteObj;

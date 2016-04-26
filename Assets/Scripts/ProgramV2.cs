@@ -134,7 +134,7 @@ public class ProgramV2 : MonoBehaviour
     void Start()
     {
         MidiOut midiOut = new MidiOut(0);
-        MidiFile midi = new MidiFile("Assets/Sis puella magica!.mid");
+        MidiFile midi = new MidiFile(GlobalVariables.song_name);
         playMidi(midiOut, midi);
 
         Console.ReadLine();

@@ -12,6 +12,7 @@ public class change_description : MonoBehaviour {
     public void change() { 
         song_name.text = song;
         background.text = back;
+        GlobalVariables.song_name = "Assets/" + song + ".mid";
     }
 
 	// Use this for initialization
