@@ -1,0 +1,34 @@
+fileFormatVersion: 2
+guid: aa5dbdbb985af1146be1011ae3b59222
+timeCreated: 1461996315
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - genericButton: {instanceID: 0}
+  - messageBox: {instanceID: 0}
+  - recorderU: {fileID: 102588, guid: 88248670fbc5df9458e8431ed29d4f0a, type: 2}
+  - clarinetU: {fileID: 195822, guid: 194a0cb760e22264dad75d970c1ea24b, type: 2}
+  - fluteU: {fileID: 128668, guid: 9614df86d5cd12b4b903b08d483f45a5, type: 2}
+  - tubaU: {fileID: 191838, guid: fbaf00e4819267040a8ec51564156457, type: 2}
+  - saxophoneU: {fileID: 158422, guid: 6eda677f2b1864e439ea3867dc721769, type: 2}
+  - drumsU: {fileID: 149622, guid: 8b3f05edfea29d2408ee7d9de5596eb3, type: 2}
+  - harpU: {fileID: 137796, guid: be067dd618175d441b525bd1f6892b7a, type: 2}
+  - violinU: {fileID: 160272, guid: a1a0a739fd498f748bf7b00a3feb1d4d, type: 2}
+  - bassoonU: {fileID: 140864, guid: c4d915212732e8b4cbe3c0759823eaba, type: 2}
+  - pianoU: {fileID: 196486, guid: 7b6a8cd4322450f4c846508c9be1b358, type: 2}
+  - organU: {fileID: 108618, guid: a1c68eea2e9fe034cb804979f0bf8846, type: 2}
+  - mandolinU: {fileID: 123344, guid: 6feb153a5579c2749a469cd7d44ed753, type: 2}
+  - trumpetU: {fileID: 161242, guid: 72194e59bd34a474eab5a5de47c9418a, type: 2}
+  - tromboneU: {fileID: 171074, guid: e258f7df1d17d604da4f774787ecd0ca, type: 2}
+  - piccoloU: {fileID: 113016, guid: 4ae8ad68557b50340af4ca9fb678b392, type: 2}
+  - frenchHornU: {fileID: 115750, guid: ae8c3cfd412e24843a7c1da57a0e5807, type: 2}
+  - doubleBassU: {fileID: 105312, guid: ffa0f18e77df38b4ca59e8c2b6c4fe01, type: 2}
+  - timpaniU: {fileID: 189830, guid: b6c6c91ca41ac43459d4d0e1eec752a6, type: 2}
+  - cowbellU: {fileID: 129766, guid: bba4bde4cb14a7147a7b2953ed19f003, type: 2}
+  - background: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,24 +1,30 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class clarinetScript : MonoBehaviour
-{
+public class clarinetScript : MonoBehaviour {
     //Valid spots you can put the instrument
     int[] range = new int[4];
-    //I think if this is set to the deltaTicksPerQuarterNote then it will be able to shoot every quarter note
-    public int frequency;
-    public int damage = 20;
+    int multFreq = 20;
+    public GameObject canvas;
+    int frequency;
+    int damage = 15;
+    int durability = 100;
+    int upgradeCost = 300;
+    int resaleCost = 325;
     int ticks = 0;
     //Where the instrument is currently
-    public int currentSpot;
+    int currentSpot;
     //The tone of the instrument, used when a note is successfully played by an instrument
-    //NOT REALLY USED BECAUSE OF TECHNICAL DIFFICULTIES, it was a nice idea though...
-    public int tone = 75;
+    int tone = 75;
     //Soundwave projectile
     public GameObject soundwave;
-    public double tempo;
+    double tempo;
     bool paused = false;
-    bool purchased = false;
+    int ySpot;
+    int xSpot;
+
+    public Sprite whiteBox;
+    Sprite originalSprite;
 
     Vector3 mousePosition;
     RaycastHit2D hit;
@@ -28,67 +34,129 @@ public class clarinetScript : MonoBehaviour
     private Vector3 offset;
     private Vector3 curScreenPoint;
     private Vector3 curPosition;
+    
 
-
-    // Use this for initialization
-    void Start()
-    {
+	// Use this for initialization
+	void Start () {
         range[0] = 3;
         range[1] = 4;
         range[2] = 5;
         range[3] = 6;
-        frequency = GlobalVariables.deltaTimeGlob / 8;
-
-    }
-    //FIGURE OUT THE BEST WAY TO FIGURE OUT THE FREQUENCY OF FIRING SOUND WAVES
-    // Update is called once per frame
-    void Update()
-    {
+        frequency = 0;
+        calculateSpot();
+	
+	}
+	// Update is called once per frame
+	void Update () {
         if (paused)
         {
             ticks = 0;
         }
-
         if (GlobalVariables.freezeSoundWaves)
         {
             ticks = 0;
         }
         //Wait until this gets updated
-        if (frequency == 0 && tempo == 0)
+        if (frequency == 0 && GlobalVariables.deltaTimeGlob != 0 && GlobalVariables.tempoToUse != 0)
         {
-            frequency = GlobalVariables.deltaTimeGlob / 8;
-            UnityEngine.Debug.Log(frequency);
-            tempo = GlobalVariables.tempoToUse;
-            UnityEngine.Debug.Log(tempo);
+            frequency = (int)Mathf.Floor(multFreq/(float)GlobalVariables.deltaTimeGlob*(float)GlobalVariables.tempoToUse);
         }
         else if (ticks == frequency)
         {
             GameObject soundwavePlayed = (GameObject)Instantiate(soundwave, this.transform.position, this.transform.rotation);
             soundwavePlayed.GetComponent<soundwaveScript>().damage = damage;
-            soundwavePlayed.GetComponent<soundwaveScript>().tone = tone;
+            if (Random.value * 10 <= 3)
+            {
+                soundwavePlayed.GetComponent<soundwaveScript>().slow = true;
+
+            }
             ticks = 0;
 
-        }
-        else
+        } else
         {
             ticks += 1;
+        }
+	
+	}
+    public void increaseFrequency()
+    {
+        multFreq -= 1;
+        if (multFreq == 0)
+        {
+            multFreq = 1;
+        }
+    }
+    public void decreaseFrequency()
+    {
+        multFreq += 1;
+    }
+    public void increaseDamage(bool lowOnly)
+    {
+        if (ySpot <= 6 && lowOnly)
+        {
+            damage = (int)(damage * 1.5);
+        }
+        else if (ySpot > 6 && !lowOnly)
+        {
+            damage = (int)(damage * 1.5);
+        }
+
+    }
+    public void decreaseDamage(bool lowOnly)
+    {
+        if (ySpot <= 6 && lowOnly)
+        {
+            damage = (int)(damage / 1.5);
+        }
+        else if (ySpot > 6 && !lowOnly)
+        {
+            damage = (int)(damage / 1.5);
         }
 
     }
 
+
+    //Figure out best way to properly position instruments
     void OnMouseDown()
     {
-        UnityEngine.Debug.Log("MouseDown");
+        canvas = GameObject.FindWithTag("menuCanvas");
+        canvas.GetComponent<upgradePanelScript>().cancel();
         paused = true;
         screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
+        calculateSpot();
+        //Debug.Log(gameObject.transform.position.x);
+        //Debug.Log(gameObject.transform.position.y);
+        //Debug.Log(xSpot);
+        //Debug.Log(ySpot);
+        GlobalVariables.spaceFilled[ySpot][xSpot] = false;
         offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
         originalPosition = transform.position;
+        canvas.GetComponent<upgradePanelScript>().instrumentPanel(this.gameObject, xSpot, ySpot, resaleCost, upgradeCost);
+
+    }
+
+    void calculateSpot()
+    {
+        ySpot = (int)Mathf.Floor((gameObject.transform.position.y + 9.8f) / 2f);
+        xSpot = (int)Mathf.Floor((gameObject.transform.position.x - 6.0f) / -2f) - 6;
+
+    }
+
+    void OnMouseEnter()
+    {
+        originalSprite = this.gameObject.GetComponent<SpriteRenderer>().sprite;
+        this.gameObject.GetComponent<SpriteRenderer>().sprite = whiteBox;
+
+    }
+
+    void OnMouseExit()
+    {
+        this.gameObject.GetComponent<SpriteRenderer>().sprite = originalSprite;
 
     }
 
     void OnMouseDrag()
     {
-        UnityEngine.Debug.Log("MouseDrag");
         curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
         curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
         transform.position = curPosition;
@@ -96,19 +164,30 @@ public class clarinetScript : MonoBehaviour
     }
     void OnMouseUp()
     {
-        UnityEngine.Debug.Log("MouseUp");
         for (int i = 0; i < range.Length; i++)
         {
-            if (Mathf.Abs(curPosition.y - (-9.8f + (range[i] + 1) * 2)) < 2f && curPosition.x < -4.8f)
+            if (Mathf.Abs(curPosition.y - (-9.8f + (range[i]+1) * 2)) < 2f && curPosition.x < -4.8f)
             {
-                transform.position = new Vector3(this.transform.position.x, -9.8f + (range[i] + 1) * 2, 0f);
-                paused = false;
-                return;
+                calculateSpot();
+                //Weird positioning thing
+                if (xSpot == -1)
+                {
+                    xSpot = 0;
+                }
+                if (GlobalVariables.spaceFilled[ySpot][xSpot] != true)
+                {
+                    GlobalVariables.spaceFilled[ySpot][xSpot] = true;
+                    transform.position = new Vector3(-6.0f - 2f * xSpot, -9.8f + (range[i] + 1) * 2, 0f);
+                    paused = false;
+                    return;
+
+                }
 
             }
         }
         paused = false;
         transform.position = originalPosition;
+        GlobalVariables.spaceFilled[ySpot][xSpot] = true;
 
     }
 }

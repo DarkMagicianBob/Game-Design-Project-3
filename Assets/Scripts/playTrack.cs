@@ -26,7 +26,6 @@ public class playTrack : MonoBehaviour {
     {
         if (noteToPlay.OffEvent != null)
         {
-            //Console.WriteLine("PlayNote");
 
             //If the time offset is less than the time to wait, then the offset is used
             if (Math.Floor((double)timeToWait / deltaTime * tempoToUse) > (Int32)offset)
@@ -152,16 +151,22 @@ public class playTrack : MonoBehaviour {
 
     }
 
+    public IEnumerator endTrack(long timeToWait, long deltaTime, long offset)
+    {
+        yield return new WaitForSeconds(.001f * ((Int32)Math.Ceiling((double)timeToWait / deltaTime * tempoToUse) - (Int32)offset));
+        Destroy(gameObject);
+
+    }
+
     public void playCurrentTrack(int spot, MidiOut midiOut, MidiFile midi)
     {
         MidiEvent note;
         NoteOnEvent t_note;
         NoteOnEvent n_note;
-        NoteOnEvent o_note;
-        TempoEvent tempo;
         Stopwatch timer = new Stopwatch();
         timer.Reset();
         timer.Start();
+        difficulty = GlobalVariables.currentDifficulty;
         //Every measure / 4th note
         if (difficulty == 1)
         {
@@ -187,6 +192,7 @@ public class playTrack : MonoBehaviour {
         {
             noteTimeDivisor = 1;
         }
+        GlobalVariables.currentDifficulty = difficulty;
         for (int j = 0; j < midi.Events[spot].Count(); j++)
         {
             note = midi.Events[spot][j];
@@ -198,14 +204,14 @@ public class playTrack : MonoBehaviour {
                 StartCoroutine(controlChangeF(note.AbsoluteTime, midi.DeltaTicksPerQuarterNote, timer.ElapsedMilliseconds, midiOut, cc, note.Channel));
             }
             //For instrument tone/patch changes
-            if (note.CommandCode == MidiCommandCode.PatchChange)
+            else if (note.CommandCode == MidiCommandCode.PatchChange)
             {
                 //Console.WriteLine("ChangedInstrument");
                 PatchChangeEvent changePatch = (PatchChangeEvent)note;
                 StartCoroutine(changePatchF(note.AbsoluteTime, midi.DeltaTicksPerQuarterNote, timer.ElapsedMilliseconds, midiOut, changePatch, changePatch.Channel));
 
             }
-            if (note.CommandCode == MidiCommandCode.NoteOn)
+            else if (note.CommandCode == MidiCommandCode.NoteOn)
             {
                 t_note = (NoteOnEvent)note;
 
@@ -216,12 +222,12 @@ public class playTrack : MonoBehaviour {
                     //Repeat if happening on same absolute time stamp
                     if (t_note.Velocity != 0 && n_note.Velocity != 0 && n_note.NoteName == t_note.NoteName && n_note.AbsoluteTime == t_note.AbsoluteTime + t_note.NoteLength)
                     {
-                        StartCoroutine(playNote(note.AbsoluteTime, midi.DeltaTicksPerQuarterNote, timer.ElapsedMilliseconds, midiOut, t_note, t_note.Channel, true));
+                       StartCoroutine(playNote(note.AbsoluteTime, midi.DeltaTicksPerQuarterNote, timer.ElapsedMilliseconds, midiOut, t_note, t_note.Channel, true));
 
                     }
                     else
                     {
-                        StartCoroutine(playNote(note.AbsoluteTime, midi.DeltaTicksPerQuarterNote, timer.ElapsedMilliseconds, midiOut, t_note, t_note.Channel, false));
+                       StartCoroutine(playNote(note.AbsoluteTime, midi.DeltaTicksPerQuarterNote, timer.ElapsedMilliseconds, midiOut, t_note, t_note.Channel, false));
                     }
                 }
                 else {
@@ -229,7 +235,18 @@ public class playTrack : MonoBehaviour {
                 }
 
 
-            }
+            } else if (note != null)
+                {
+                MetaEvent me = note as MetaEvent;
+                if (me != null)
+                {
+                    if (me.MetaEventType == MetaEventType.EndTrack)
+                    {
+                        StartCoroutine(endTrack(note.AbsoluteTime, midi.DeltaTicksPerQuarterNote, timer.ElapsedMilliseconds));
+                    }
+                }
+
+           }
         }
 
     }
