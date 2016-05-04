@@ -57,7 +57,6 @@ public class drumScript : MonoBehaviour
         {
             GameObject soundwavePlayed = (GameObject)Instantiate(soundwave, this.transform.position, this.transform.rotation);
             soundwavePlayed.GetComponent<soundwaveScript>().damage = damage;
-            soundwavePlayed.GetComponent<soundwaveScript>().tone = tone;
             ticks = 0;
 
         }
