@@ -431,7 +431,7 @@ public class mandolinUScript : MonoBehaviour
         //Wait until this gets updated
         if (frequency == 0 && GlobalVariables.deltaTimeGlob != 0 && GlobalVariables.tempoToUse != 0)
         {
-            frequency = (int)Mathf.Floor(multFreq / (float)GlobalVariables.deltaTimeGlob * (float)GlobalVariables.tempoToUse);
+            frequency = (int)Mathf.Floor(multFreq / (float)300 * (float)800);
         }
         else if (ticks == frequency)
         {
@@ -455,10 +455,12 @@ public class mandolinUScript : MonoBehaviour
         {
             multFreq = 1;
         }
+        frequency = (int)Mathf.Floor(multFreq / (float)300 * (float)800);
     }
     public void decreaseFrequency()
     {
         multFreq += 1;
+        frequency = (int)Mathf.Floor(multFreq / (float)300 * (float)800);
     }
     public void increaseDamage(bool lowOnly)
     {

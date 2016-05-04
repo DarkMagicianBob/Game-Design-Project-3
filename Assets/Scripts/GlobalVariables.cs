@@ -163,7 +163,7 @@ public class GlobalVariables : MonoBehaviour {
 
         unlockedLevels[0] = true;
         //Uncomment this if you wish to make all levels playable
-        /*unlockedLevels[1] = true;
+        unlockedLevels[1] = true;
         unlockedLevels[2] = true;
         unlockedLevels[3] = true;
         unlockedLevels[4] = true;
@@ -191,7 +191,7 @@ public class GlobalVariables : MonoBehaviour {
         unlockedLevels[26] = true;
         unlockedLevels[27] = true;
         unlockedLevels[28] = true;
-        unlockedLevels[29] = true;*/
+        unlockedLevels[29] = true;
         //The level in story mode that is being played currently, used to go unlock later levels
         currentLevel = 1;
         storyMode = true;

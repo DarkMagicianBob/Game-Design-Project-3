@@ -117,7 +117,7 @@ public class ProgramV2 : MonoBehaviour
                     GlobalVariables.freePlayModeCash = 10000;
                     //Reset cash at hand
                     GlobalVariables.cashAtHand = GlobalVariables.freePlayModeCash;
-                    SceneManager.LoadScene("freePlayMenu");
+                    SceneManager.LoadScene("mainMenu");
                 }
             }
         }
@@ -349,6 +349,14 @@ public class ProgramV2 : MonoBehaviour
         } else
         {
             GlobalVariables.cashAtHand = GlobalVariables.freePlayModeCash;
+        }
+        //Empty all filled space so that you can place units anew
+        for (int i = 0; i < GlobalVariables.spaceFilled.Length; i++)
+        {
+            for (int j = 0; j < GlobalVariables.spaceFilled[i].Length; j++)
+            {
+                GlobalVariables.spaceFilled[i][j] = false;
+            }
         }
         instrumentMenuScript.toMute = midiOut;
         UnityEngine.Debug.Log(GlobalVariables.currentSong);

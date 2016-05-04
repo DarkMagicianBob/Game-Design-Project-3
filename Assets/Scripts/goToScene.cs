@@ -18,6 +18,9 @@ public class goToScene : MonoBehaviour {
 
     public void load(string level_name)
     {
+        if (level_name == "exit") {
+            Application.Quit();
+        }
         if (level_name == "freePlayMenu")
         {
             GlobalVariables.storyMode = false;
@@ -25,14 +28,7 @@ public class goToScene : MonoBehaviour {
         else if (level_name == "storyMenu") {
             GlobalVariables.storyMode = true;
         }
-        //Empty all filled space so that you can place units anew
-        for (int i = 0; i < GlobalVariables.spaceFilled.Length; i ++)
-        {
-            for (int j = 0; j < GlobalVariables.spaceFilled[i].Length; j++)
-            {
-                GlobalVariables.spaceFilled[i][j] = false;
-            }
-        }
+        
         SceneManager.LoadScene(level_name);
     }
 
