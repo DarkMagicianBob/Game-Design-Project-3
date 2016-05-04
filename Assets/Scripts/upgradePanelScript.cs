@@ -128,6 +128,14 @@ public class upgradePanelScript : MonoBehaviour {
         {
             messageBoxx.text = "More cowbell! Go MSU!";
         }
+        if (instrument.name.Contains("drum"))
+        {
+            messageBoxx.text = "Now your drums will really rock the percussion lane with their rimshot ability.";
+        }
+        if (instrument.name.Contains("timpani"))
+        {
+            messageBoxx.text = "Now your timpani set has the almighty rimshot ability.  NOTHING CAN STOP YOU NOW!";
+        }
         messageBoxx.transform.SetParent(bbackground.transform, false);
         messageBoxx.transform.localScale = new Vector3(1, .5f, 1);
         messageBoxx.transform.position += new Vector3(0f, -1f, 0f);
@@ -202,7 +210,7 @@ public class upgradePanelScript : MonoBehaviour {
         {
             Instantiate(saxophoneU, instrument.transform.position, instrument.transform.rotation);
         }
-        else if (instrument.name.Contains("drums"))
+        else if (instrument.name.Contains("drum"))
         {
             Instantiate(drumsU, instrument.transform.position, instrument.transform.rotation);
         }

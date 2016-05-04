@@ -9,8 +9,12 @@ public class midiImport : MonoBehaviour {
 
     public void import()
     {
-        string name = input.textComponent.text;
-        GlobalVariables.currentSong = name;
+        string customSong = input.textComponent.text;
+        if (!string.IsNullOrEmpty(customSong) && !customSong.Contains("Enter text..."))
+        {
+            Debug.Log("CUSTOM");
+            GlobalVariables.currentSong = customSong;
+        }
     }
 	void Start () {
 	

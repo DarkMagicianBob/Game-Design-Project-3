@@ -143,7 +143,7 @@ public class violinScript : MonoBehaviour
 
     }
 
-    void OnMouseEnter()
+    /*void OnMouseEnter()
     {
         originalSprite = this.gameObject.GetComponent<SpriteRenderer>().sprite;
         this.gameObject.GetComponent<SpriteRenderer>().sprite = whiteBox;
@@ -154,7 +154,7 @@ public class violinScript : MonoBehaviour
     {
         this.gameObject.GetComponent<SpriteRenderer>().sprite = originalSprite;
 
-    }
+    }*/
 
     void OnMouseDrag()
     {

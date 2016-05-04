@@ -139,7 +139,7 @@ public class cowbellUScript : MonoBehaviour
 
     }
 
-    void OnMouseEnter()
+    /*void OnMouseEnter()
     {
         originalSprite = this.gameObject.GetComponent<SpriteRenderer>().sprite;
         this.gameObject.GetComponent<SpriteRenderer>().sprite = whiteBox;
@@ -150,7 +150,7 @@ public class cowbellUScript : MonoBehaviour
     {
         this.gameObject.GetComponent<SpriteRenderer>().sprite = originalSprite;
 
-    }
+    }*/
 
     void OnMouseDrag()
     {

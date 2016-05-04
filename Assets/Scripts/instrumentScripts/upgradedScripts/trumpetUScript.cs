@@ -142,7 +142,7 @@ public class trumpetUScript : MonoBehaviour
 
     }
 
-    void OnMouseEnter()
+    /*void OnMouseEnter()
     {
         originalSprite = this.gameObject.GetComponent<SpriteRenderer>().sprite;
         this.gameObject.GetComponent<SpriteRenderer>().sprite = whiteBox;
@@ -153,7 +153,7 @@ public class trumpetUScript : MonoBehaviour
     {
         this.gameObject.GetComponent<SpriteRenderer>().sprite = originalSprite;
 
-    }
+    }*/
 
     void OnMouseDrag()
     {

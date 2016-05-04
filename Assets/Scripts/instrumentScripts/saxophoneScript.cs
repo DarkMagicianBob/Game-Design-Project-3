@@ -141,7 +141,7 @@ public class saxophoneScript : MonoBehaviour
 
     }
 
-    void OnMouseEnter()
+    /*void OnMouseEnter()
     {
         originalSprite = this.gameObject.GetComponent<SpriteRenderer>().sprite;
         this.gameObject.GetComponent<SpriteRenderer>().sprite = whiteBox;
@@ -152,7 +152,7 @@ public class saxophoneScript : MonoBehaviour
     {
         this.gameObject.GetComponent<SpriteRenderer>().sprite = originalSprite;
 
-    }
+    }*/
 
     void OnMouseDrag()
     {

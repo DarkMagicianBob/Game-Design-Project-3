@@ -18,14 +18,12 @@ public class goToScene : MonoBehaviour {
 
     public void load(string level_name)
     {
-        if (!GlobalVariables.storyMode)
+        if (level_name == "freePlayMenu")
         {
-            GameObject customSongInput = GameObject.FindGameObjectWithTag("customSongInput");
-            string customSong = customSongInput.GetComponentInChildren<Text>().text;
-            if (!string.IsNullOrEmpty(customSong))
-            {
-                GlobalVariables.currentSong = customSong;
-            }
+            GlobalVariables.storyMode = false;
+        }
+        else if (level_name == "storyMenu") {
+            GlobalVariables.storyMode = true;
         }
         //Empty all filled space so that you can place units anew
         for (int i = 0; i < GlobalVariables.spaceFilled.Length; i ++)
